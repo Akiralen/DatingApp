@@ -6,7 +6,6 @@
 /home/david/Projects/satcalc/API/bin/Debug/net7.0/API.dll
 /home/david/Projects/satcalc/API/bin/Debug/net7.0/API.pdb
 /home/david/Projects/satcalc/API/bin/Debug/net7.0/Humanizer.dll
-/home/david/Projects/satcalc/API/bin/Debug/net7.0/Microsoft.AspNetCore.OpenApi.dll
 /home/david/Projects/satcalc/API/bin/Debug/net7.0/Microsoft.Data.Sqlite.dll
 /home/david/Projects/satcalc/API/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.dll
 /home/david/Projects/satcalc/API/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Abstractions.dll
