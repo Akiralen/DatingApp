@@ -4,11 +4,11 @@ namespace API.DTOs
 {
     public class RegisterDTO
     {
-        [Required]
+        [Required(ErrorMessage = "Username is required")]
         [MinLength(4)]
         public string username{get;set;}
-        [Required]
-        [MinLength(4)]
+        [Required(ErrorMessage = "Password is reqired")]
+        [MinLength(8,ErrorMessage = "Password too short")]
         public string password{get;set;}
     }
 }
