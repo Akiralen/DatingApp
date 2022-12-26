@@ -1,0 +1,18 @@
+<div class="div container mt-5" >
+  <div style="text-align:center;" *ngIf="!registerForm">
+    <h1>Find your match</h1>
+    <p class = "lead">To view your matches just sign up</p>
+    <div class="div text-center">
+      <button class="btn btn-primary btn-lg me-2" (click)="RegisterFormToggle()">Register</button>
+      <button class="btn btn-primary btn-info btn-lg">Learn More</button>
+    </div>
+  </div>
+
+  <div class="container" *ngIf="registerForm">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-register  (cancelRegister)="cancelRegisterMode($event)"></app-register>
+      </div>
+    </div>
+  </div>
+</div>
