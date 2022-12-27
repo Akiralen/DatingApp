@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class RegisterComponent implements OnInit {
 
   model: any = {}
 
-  constructor(private accoountService:AccountService) { }
+  constructor(private accoountService:AccountService,private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -21,6 +22,7 @@ export class RegisterComponent implements OnInit {
     this.accoountService.register(this.model).subscribe({
       next: response =>{
         this.cancel();
+        this.router.navigateByUrl('/members');
       },
       error:error => console.log(error)
     });
