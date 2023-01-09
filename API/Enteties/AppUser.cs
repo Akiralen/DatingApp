@@ -22,8 +22,8 @@ namespace API.Enteties
         public string city{get;set;}
         public string country{get;set;}
         public List<Photo> photos{get;set;} = new List<Photo>();
-        public int GetAge(){
-            return dateOfBirth.CalculateAge();
-        }
+        // public int GetAge(){
+        //     return dateOfBirth.CalculateAge();
+        // }
     }
 }
