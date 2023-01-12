@@ -18,7 +18,7 @@ namespace API.Enteties
         public string gender {get;set;}
         public string introduction{get;set;}
         public string lookingFor{get;set;}
-        public string interests{get;set;}
+        public string intrests{get;set;}
         public string city{get;set;}
         public string country{get;set;}
         public List<Photo> photos{get;set;} = new List<Photo>();

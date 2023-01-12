@@ -7,20 +7,19 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { NavComponent } from './components/nav/nav.component'
 import { FormsModule } from '@angular/forms'
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { MembersListComponent } from './components/members/members-list/members-list.component';
 import { MembersDetailsComponent } from './components/members/members-details/members-details.component';
 import { MessagesComponent } from './components/messages/messages.component';
 import { ListsComponent } from './components/lists/lists.component'
-import { ToastrModule } from 'ngx-toastr';
 import { TestErrorComponent } from './error/test-error/test-error.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { NotFoundComponent } from './error/not-found/not-found.component';
 import { ServerErrorComponent } from './error/server-error/server-error.component';
 import { MemberCardComponent } from './components/members/member-card/member-card.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { SharedModule } from './modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -44,10 +43,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    BsDropdownModule.forRoot(),
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right'
-    })
+    SharedModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS,useClass: ErrorInterceptor,multi: true},
