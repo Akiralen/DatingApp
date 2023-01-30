@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { HomeComponent } from './components/home/home.component'
 import { ListsComponent } from './components/lists/lists.component'
 import { MembersDetailsComponent } from './components/members/members-details/members-details.component'
+import { MembersEditComponent } from './components/members/members-edit/members-edit.component'
 import { MembersListComponent } from './components/members/members-list/members-list.component'
 import { MessagesComponent } from './components/messages/messages.component'
 import { NotFoundComponent } from './error/not-found/not-found.component'
@@ -22,6 +23,7 @@ const routes: Routes = [
     children: [
       { path: 'members', component: MembersListComponent },
       { path: 'members/:username', component: MembersDetailsComponent },
+      { path: 'member/edit', component: MembersEditComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],

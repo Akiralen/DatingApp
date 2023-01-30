@@ -31,14 +31,15 @@ export class MembersDetailsComponent implements OnInit {
         preview:false
       }
     ]
-
-    this.galleryImages = this.getImages();
   }
   loadMember() {
     const username = this.route.snapshot.paramMap.get('username')
     if (username) {
       this.memberService.getMemeber(username).subscribe({
-        next:member=>this.member=member
+        next:member=>{
+          this.member=member;
+          this.galleryImages = this.getImages();
+        }
       })
     }
   }
