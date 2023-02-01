@@ -10,6 +10,7 @@ import { NotFoundComponent } from './error/not-found/not-found.component'
 import { ServerErrorComponent } from './error/server-error/server-error.component'
 import { TestErrorComponent } from './error/test-error/test-error.component'
 import { AuthGuard } from './guards/auth.guard'
+import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard'
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,7 +24,7 @@ const routes: Routes = [
     children: [
       { path: 'members', component: MembersListComponent },
       { path: 'members/:username', component: MembersDetailsComponent },
-      { path: 'member/edit', component: MembersEditComponent },
+      { path: 'member/edit', component: MembersEditComponent,canDeactivate: [PreventUnsavedChangesGuard] },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],
