@@ -10,10 +10,16 @@ import { MembersService } from 'src/app/services/members.service';
 })
 export class MembersListComponent implements OnInit {
   members$: Observable<Member[]> | undefined;
+  loadedUser: string | undefined;
 
   constructor(private memberService: MembersService) {}
 
   ngOnInit(): void {
+    this.members$ = this.memberService.getMembers();
+  }
+
+  search(): void {
+    this.memberService.cleanCashe();
     this.members$ = this.memberService.getMembers();
   }
 }

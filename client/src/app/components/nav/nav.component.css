@@ -1,7 +1,28 @@
-.dropdown-toggle, .dropdown-item {
+.dropdown-toggle,
+.dropdown-item {
   cursor: pointer;
 }
-.dropdown-menu{
+
+.dropdown-menu {
   opacity: 1;
-  background-color:blueviolet;
+  background-color: blueviolet;
 }
+
+img {
+  max-height: 50px;
+  border: 1px;
+  display: inline;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  font-size: 18px;
+  line-height: 1.5;
+  border-radius: 60px;
+}
+.btn-image {
+  background-image: url('/assets/user.png');
+  background-size: contain;
+}
+

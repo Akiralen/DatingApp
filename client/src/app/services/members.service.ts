@@ -15,12 +15,17 @@ export class MembersService {
 
   getMembers() {
     if (this.members.length > 0) return of(this.members);
+
     return this.http.get<Member[]>(this.baseURL + 'users').pipe(
       map((members) => {
         this.members = members;
         return members;
       })
     );
+  }
+
+  cleanCashe() {
+    this.members = [];
   }
 
   getMemeber(username: string) {
@@ -36,5 +41,13 @@ export class MembersService {
         this.members[index] = { ...this.members[index], ...member };
       })
     );
+  }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseURL + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseURL + 'users/delete-photo/' + photoId);
   }
 }

@@ -24,7 +24,7 @@
           >Test Errors</a
         >
       </li>
-  </ul>
+    </ul>
     <form
       #loginForm="ngForm"
       class="d-flex"
@@ -48,9 +48,21 @@
       />
       <button class="btn btn-outline-success" type="submit">Login</button>
     </form>
-    <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-      <button class="btn btn-info dropdown-toggle" dropdownToggle>
-        Welcome {{user.username}}
+    <div
+      class="dropdown"
+      *ngIf="accountService.currentUser$ | async as user"
+      dropdown
+    >
+      <button
+        dropdownToggle
+        class="btn-default btn-circle btn-image"
+        style="background-image: url('{{ user.mainPhotoURL }}')"
+      >
+        <!-- <img
+          src="{{ user.mainPhotoURL }}"
+          alt="user photo"
+          class="rounded-circle"
+        /> -->
       </button>
       <div class="dropdown-menu" *dropdownMenu>
         <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>

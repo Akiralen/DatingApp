@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.Security.Claims;
 using API.DTOs;
 using API.Enteties;
 using API.Extensions;
@@ -26,7 +24,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
-            var users = await _userRepository.GetMembersAsync();
+            var users = await _userRepository.GetMembersAsync(User.GetUsername());
 
             var usersToReturn = _mapper.Map<IEnumerable<MemberDTO>>(users);
 
@@ -77,9 +75,57 @@ namespace API.Controllers
 
             user.photos.Add(photo);
 
-            if(await _userRepository.SaveAllAsync()) return _mapper.Map<PhotoDTO>(photo);
+            if (await _userRepository.SaveAllAsync())
+            {
+                return CreatedAtAction(nameof(GetUser),
+                    new { username = user.username },
+                    _mapper.Map<PhotoDTO>(photo));
+            }
 
             return BadRequest("Unable to add photo");
+        }
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            if (user == null) return NotFound("User not found");
+
+            var photo = user.photos.FirstOrDefault(x => x.id == photoId);
+
+            if (photo == null) return NotFound("Photo not found");
+
+            if (photo.isMain) return BadRequest("This photo is already main");
+
+            var oldMain = user.photos.FirstOrDefault(x => x.isMain);
+            if (oldMain != null) oldMain.isMain = false;
+            photo.isMain = true;
+
+            if (await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Unable to set main photo");
+        }
+        [HttpDelete("delete-photo/{photoId}")]
+        public async Task<ActionResult>DeletePhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var photo = user.photos.FirstOrDefault(x=>x.id==photoId);
+
+            if(photo==null) return NotFound();
+
+            if(photo.isMain) return BadRequest("Unable to delete main photo");
+
+            if(photo.publicId!=null)
+            {
+                var result=await _photoService.DeletePhotoAsync(photo.publicId);
+                if (result.Error!=null) return BadRequest(result.Error.Message);
+            }
+
+            user.photos.Remove(photo);
+            if(await _userRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Problem deleting");
         }
     }
 }

@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { NavComponent } from './components/nav/nav.component'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { MembersListComponent } from './components/members/members-list/members-list.component';
@@ -22,6 +22,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SharedModule } from './modules/shared.module';
 import { MembersEditComponent } from './components/members/members-edit/members-edit.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { PhotoEditorComponent } from './components/members/photo-editor/photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     NotFoundComponent,
     ServerErrorComponent,
     MemberCardComponent,
-    MembersEditComponent
+    MembersEditComponent,
+    PhotoEditorComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule
   ],
   providers: [
