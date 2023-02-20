@@ -23,6 +23,8 @@ import { SharedModule } from './modules/shared.module';
 import { MembersEditComponent } from './components/members/members-edit/members-edit.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { PhotoEditorComponent } from './components/members/photo-editor/photo-editor.component';
+import { TextInputComponent } from './forms/text-input/text-input.component';
+import { DatePickerComponent } from './forms/date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { PhotoEditorComponent } from './components/members/photo-editor/photo-ed
     ServerErrorComponent,
     MemberCardComponent,
     MembersEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    TextInputComponent,
+    DatePickerComponent
   ],
   imports: [
     CommonModule,

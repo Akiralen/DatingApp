@@ -14,6 +14,9 @@ export class MemberCardComponent implements OnInit{
   constructor(){}
 
   ngOnInit(): void {
+    if (this.member){
+      if (this.member.photoURL==null) this.member.photoURL = './assets/user.png';
+    }
   }
 
 }
