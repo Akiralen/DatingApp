@@ -25,6 +25,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { PhotoEditorComponent } from './components/members/photo-editor/photo-editor.component';
 import { TextInputComponent } from './forms/text-input/text-input.component';
 import { DatePickerComponent } from './forms/date-picker/date-picker.component';
+import { SearchOptionsComponent } from './forms/search-options/search-options.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { DatePickerComponent } from './forms/date-picker/date-picker.component';
     MembersEditComponent,
     PhotoEditorComponent,
     TextInputComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    SearchOptionsComponent
   ],
   imports: [
     CommonModule,

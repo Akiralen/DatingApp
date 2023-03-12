@@ -1,10 +1,57 @@
-<div class="row mb-2">
-  <div class="col-2 ms-2">
-    <button class="btn btn-secondary" (click)="search()">Search</button>
+<div class="d-flex justify-content-between me-2 ms-2 mb-1">
+  <app-search-options
+    (searchParams)="searchParamsUpdate($event)"
+  ></app-search-options>
+  <div class="btn-group" *ngIf="pagination" dropdown>
+    <button type="button" class="btn btn-dark btn-sm">Profiles per page</button>
+    <button
+      id="button-split"
+      type="button"
+      dropdownToggle
+      class="btn btn-sm btn-danger dropdown-toggle dropdown-toggle-split"
+      aria-controls="dropdown-split"
+    >
+      {{ pagination.itemsPerPage }}
+    </button>
+    <ul
+      id="dropdown-split"
+      *dropdownMenu
+      class="dropdown-menu dropdown-menu-end"
+      role="menu"
+      aria-labelledby="button-split"
+      backgroundColor=""
+    >
+      <li *ngFor="let size of pageSizes">
+        <a class="dropdown-item text-center" (click)="setItemsPerPage(size)">{{
+          size
+        }}</a>
+      </li>
+    </ul>
   </div>
 </div>
-<div class="row">
-  <div class="col-2 ms-1" *ngFor="let member of members$ | async">
+<div class="text-center">
+  <H1>Found {{ pagination?.totalItems }} matches</H1>
+</div>
+<div class="row mb-2">
+  <div class="col-2 ms-1" *ngFor="let member of members">
     <app-member-card [member]="member"></app-member-card>
+  </div>
+  <div
+    class="d-flex justify-content-center"
+    *ngIf="pagination && pagination.totalItems > pagination.itemsPerPage"
+  >
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="pagination.totalItems"
+      [itemsPerPage]="pagination.itemsPerPage"
+      [maxSize]="10"
+      [(ngModel)]="pagination.currentPage"
+      (pageChanged)="pageChanged($event)"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+    >
+    </pagination>
   </div>
 </div>

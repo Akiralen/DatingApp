@@ -64,7 +64,9 @@
           class="rounded-circle"
         /> -->
       </button>
-      <div class="dropdown-menu" *dropdownMenu>
+      <div class="dropdown-menu dropdown-menu-end" *dropdownMenu>
+        <p class="text-center" style="background-color: rgb(4, 4, 4);">{{user.knownAs}}</p>
+        <div class="dropdown-divider"></div>
         <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
         <a class="dropdown-item" (click)="logout()">Logout</a>
       </div>

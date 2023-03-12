@@ -1,0 +1,44 @@
+<form [formGroup]="basicSearchForm" (ngSubmit)="updateSearch()">
+  <div class="d-flex flex-row gap-1">
+    <label for="gender">Looking for: </label>
+    <select
+      class="select-gender"
+      (change)="changeGender($event)"
+      formControlName="gender"
+    >
+      <option value="">any</option>
+      <option *ngFor="let gender of genderChoices" [ngValue]="gender">
+        {{ gender }}
+      </option>
+    </select>
+    <label for="ageBracket">Desired age: </label>
+    <select
+      class="select-age"
+      (change)="changeAge($event)"
+      formControlName="ageBracket"
+    >
+      <option value="">all</option>
+      <option *ngFor="let bracket of ageBracketChoices" [ngValue]="bracket">
+        {{ bracket.text }}
+      </option>
+    </select>
+    <label for="sortBy">Sort by: </label>
+    <select
+      class="sortBy fa"
+      (change)="changeSort($event)"
+      formControlName="sortBy"
+    >
+      <option value="">Last active</option>
+      <option
+        class="fa"
+        *ngFor="let choice of sortByChoices"
+        [ngValue]="choice"
+      >
+        {{ choice.text }} {{ choice.icon }}
+      </option>
+    </select>
+    <button type="submit" class="btn btn-danger btn-sm btn-block">
+      Search
+    </button>
+  </div>
+</form>
