@@ -14,8 +14,7 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   constructor(
     private http: HttpClient,
-    private memberService: MembersService
-  ) {}
+  ) { }
 
   login(model: any) {
     return this.http.post<User>(this.baseURL + 'account/login', model).pipe(
@@ -43,12 +42,10 @@ export class AccountService {
   setCurrentUser(user: User) {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
-    console.log(user);
   }
 
   logout() {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
-    this.memberService.cleanCashe();
   }
 }

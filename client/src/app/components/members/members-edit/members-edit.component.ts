@@ -42,7 +42,7 @@ export class MembersEditComponent implements OnInit {
   loadMember() {
     if (!this.user) return;
     this.memberService.getMemeber(this.user.username).subscribe({
-      next: (member) => {
+      next: (member: Member | undefined) => {
         this.member = member;
         this.originalMember = JSON.parse(JSON.stringify(this.member));
       },

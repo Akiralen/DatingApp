@@ -36,7 +36,7 @@ export class MembersDetailsComponent implements OnInit {
     const username = this.route.snapshot.paramMap.get('username')
     if (username) {
       this.memberService.getMemeber(username).subscribe({
-        next:member=>{
+        next:(member: Member | undefined)=>{
           this.member=member;
           this.galleryImages = this.getImages();
         }

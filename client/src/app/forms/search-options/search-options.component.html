@@ -6,7 +6,7 @@
       (change)="changeGender($event)"
       formControlName="gender"
     >
-      <option value="">any</option>
+      <option value="any">any</option>
       <option *ngFor="let gender of genderChoices" [ngValue]="gender">
         {{ gender }}
       </option>
@@ -17,7 +17,6 @@
       (change)="changeAge($event)"
       formControlName="ageBracket"
     >
-      <option value="">all</option>
       <option *ngFor="let bracket of ageBracketChoices" [ngValue]="bracket">
         {{ bracket.text }}
       </option>
@@ -28,7 +27,6 @@
       (change)="changeSort($event)"
       formControlName="sortBy"
     >
-      <option value="">Last active</option>
       <option
         class="fa"
         *ngFor="let choice of sortByChoices"

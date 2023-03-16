@@ -4,7 +4,9 @@ import { map, of } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Member } from "../models/member";
 import { PaginatedResult } from "../models/pagination";
+import { User } from "../models/user";
 import { UserParams } from "../models/userParams";
+import { AccountService } from "./account.service";
 
 @Injectable({
   providedIn: "root",
@@ -13,9 +15,10 @@ export class MembersService {
   baseURL = environment.apiURL;
   members: Member[] = [];
   memberCache = new Map();
-  memberProfileCache = new Map();
+  user: User | undefined;
+  userParams: UserParams | undefined;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private accoutService: AccountService) { }
 
   getMembers(userParams: UserParams) {
     const requestKey = Object.values(userParams).join("-");
@@ -39,6 +42,12 @@ export class MembersService {
     );
   }
 
+  getUserParams() {
+    return this.userParams
+  }
+  setUserParams(params: UserParams) {
+    this.userParams = params
+  }
   private getPaginatedResult<T>(url: string, params: HttpParams) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
     return this.http.get<T>(url, { observe: "response", params }).pipe(
@@ -62,22 +71,20 @@ export class MembersService {
     return params;
   }
 
-  cleanCashe() {
-    this.members = [];
-  }
 
   getMemeber(username: string) {
-    // const response = this.memberProfileCache.get(username);
-    // if (response) return of(response);
-    const m = [...this.memberCache.values()].reduce((arr,elm)=>arr.concat(elm.result),[]);
-    console.log(m);
+    const result = [...this.memberCache.values()].reduce((arr, elm) => arr
+      .concat(elm.result), [])
+      .find((m: { username: string; }) => m.username == username);
 
-    const member = this.members.find((x) => x.username === username);
-    if (member) return of(member);
+    if (result) return of(result)
+    ;
     return this.http.get<Member>(this.baseURL + "users/" + username).pipe(
-      map((response)=>{
-        this.memberProfileCache.set(username,response);
-        return response;
+      map((response) => {
+        const defaultMembers = this.memberCache.get('default');
+        defaultMembers.add(response);
+        this.memberCache.set(defaultMembers, 'default');
+        return of(response);
       })
     );
   }

@@ -18,57 +18,66 @@ export class MembersListComponent implements OnInit {
   loadedUser: string | undefined;
   pagination: Pagination | undefined;
   pageSizes = [3, 5, 10, 25];
-  userParams: UserParams = {
-    gender: "any",
-    minAge: 18,
-    maxAge: 100,
-    pageNumber: 1,
-    pageSize: 5,
-    orderBy: "",
-  };
+  userParams: UserParams | undefined;
 
-  constructor(private memberService: MembersService) {}
+  constructor(private memberService: MembersService) {
+    this.userParams = this.memberService.getUserParams();
+    if (!this.userParams) {
+      this.userParams = {
+        gender: 'any',
+        minAge: 18,
+        maxAge: 99,
+        orderBy: '',
+        pageNumber: 1,
+        pageSize: 5
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.loadMembers();
   }
 
   pageChanged(event: any): void {
-    if (this.userParams.pageNumber !== event.page) {
-      this.userParams.pageNumber = event.page;
-      if (this.pagination) this.pagination.currentPage = event.page;
-      this.loadMembers();
-    }
+    if (this.userParams)
+      if (this.userParams.pageNumber !== event.page) {
+        this.userParams.pageNumber = event.page;
+        if (this.pagination) this.pagination.currentPage = event.page;
+        this.loadMembers();
+      }
   }
 
   loadMembers() {
-    this.memberService.getMembers(this.userParams).subscribe({
-      next: (response) => {
-        if (response.result && response.pagination) {
-          this.members = response.result;
-          this.pagination = response.pagination;
-        }
-      },
-    });
+    if (this.userParams)
+      this.memberService.getMembers(this.userParams).subscribe({
+        next: (response) => {
+          if (response.result && response.pagination) {
+            this.members = response.result;
+            this.pagination = response.pagination;
+          }
+        },
+      });
   }
 
   setItemsPerPage(itemsPerPage: number) {
-    if (this.pagination) {
-      this.userParams.pageSize = itemsPerPage;
-      this.pagination.currentPage = 1;
-      this.loadMembers();
-    }
+    if (this.userParams)
+      if (this.pagination) {
+        this.userParams.pageSize = itemsPerPage;
+        this.pagination.currentPage = 1;
+        this.loadMembers();
+      }
   }
 
   searchParamsUpdate(e: any) {
-    if (e.gender) this.userParams.gender = e.gender;
-    else this.userParams.gender = "any";
-    if (e.minAge) this.userParams.minAge = e.minAge;
-    else this.userParams.minAge = 18;
-    if (e.maxAge) this.userParams.maxAge = e.maxAge;
-    else this.userParams.maxAge = 100;
-    if (e.sortBy) this.userParams.orderBy = e.sortBy;
-    console.log(this.userParams);
+    var params = new UserParams();
+    if (e.gender) params.gender = e.gender;
+    if (e.minAge) params.minAge = e.minAge;
+    if (e.maxAge) params.maxAge = e.maxAge;
+    if (e.sortBy) params.orderBy = e.sortBy;
+    params.pageNumber = this.userParams ? this.userParams.pageNumber : 1;
+    params.pageSize = this.userParams ? this.userParams.pageSize : 5;
+    this.userParams = params;
+    this.memberService.setUserParams(params);
     this.loadMembers();
   }
 }

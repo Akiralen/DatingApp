@@ -4,6 +4,8 @@ import { ToastrService } from "ngx-toastr";
 import { AgeBracket } from "src/app/models/age-bracket";
 import { BasicSearch } from "src/app/models/basic-search";
 import { User } from "src/app/models/user";
+import { UserParams } from "src/app/models/userParams";
+import { MembersService } from "src/app/services/members.service";
 
 @Component({
   selector: "app-search-options",
@@ -11,10 +13,10 @@ import { User } from "src/app/models/user";
   styleUrls: ["./search-options.component.css"],
 })
 export class SearchOptionsComponent {
-  @Input() user: User | undefined;
   @Output() searchParams = new EventEmitter<BasicSearch>();
 
   basicSearchForm: FormGroup = new FormGroup({});
+  userParams: UserParams | undefined;
   formSearchOptions: BasicSearch = {
     gender: "any",
     minAge: 18,
@@ -23,8 +25,13 @@ export class SearchOptionsComponent {
   };
   genderChoices: string[] = ["male", "female"];
   ageBracketChoices: AgeBracket[] = [];
-  ageBoundaries: number[] = [18, 20, 25, 35, 60];
+  ageBoundaries: number[] = [18, 20, 25, 35, 60, 100];
   sortByChoices: any[] = [
+    {
+      text: "Last active",
+      icon: "",
+      value: "",
+    },
     {
       text: "Name",
       icon: String.fromCharCode(parseInt("f15d", 16)),
@@ -46,7 +53,17 @@ export class SearchOptionsComponent {
       value: "age_d",
     },
   ];
-  constructor(toast: ToastrService, public fb: FormBuilder) {}
+  constructor(toast: ToastrService, public fb: FormBuilder, memberService: MembersService) {
+    this.userParams = memberService.getUserParams()
+    if (!this.userParams) this.userParams = {
+      gender: 'any',
+      minAge: 18,
+      maxAge: 100,
+      pageNumber: 1,
+      pageSize: 5,
+      orderBy: ""
+    }
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -54,6 +71,11 @@ export class SearchOptionsComponent {
 
   initializeForm() {
     //initialize age brackets
+    this.ageBracketChoices = [{
+      text: this.ageBoundaries[0] + '-' + this.ageBoundaries.slice(-1).pop(),
+      minAge: this.ageBoundaries[0],
+      maxAge: this.ageBoundaries.slice(-1).pop() ?? 100
+    }]
     for (let i = 0; i < this.ageBoundaries.length - 1; i++) {
       this.ageBracketChoices.push({
         text: this.ageBoundaries[i] + "-" + this.ageBoundaries[i + 1],
@@ -63,15 +85,16 @@ export class SearchOptionsComponent {
     }
 
     this.basicSearchForm = this.fb.group({
-      gender: ["any"],
-      ageBracket: [{ text: "any", minAge: 18, maxAge: 100 }],
-      sortBy: [{ text: "Last active", icon: "", value: "" }],
+      gender: [this.userParams?.gender],
+      ageBracket: [this.ageBracketChoices.
+        find(e => e.minAge == this.userParams?.minAge && e.maxAge == this.userParams.maxAge) ?? this.ageBracketChoices[0]],
+      sortBy: [this.sortByChoices.find(e => e.value == this.userParams?.orderBy) ?? this.sortByChoices[0]],
     });
   }
 
-  changeGender(e: any) {}
-  changeAge(e: any) {}
-  changeSort(e: any) {}
+  changeGender(e: any) { }
+  changeAge(e: any) { }
+  changeSort(e: any) { }
   updateSearch() {
     var value: BasicSearch = {
       gender: this.basicSearchForm.value.gender,
@@ -79,7 +102,6 @@ export class SearchOptionsComponent {
       maxAge: this.basicSearchForm.value.ageBracket.maxAge,
       sortBy: this.basicSearchForm.value.sortBy.value,
     };
-    console.log(value);
     this.searchParams.emit(value);
   }
 }
